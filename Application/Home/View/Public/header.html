@@ -1,0 +1,43 @@
+<style type="text/css">
+    #head-img{
+    	width: 40px;
+    	height: 40px;
+	    display: block;
+    }
+    #head-a-img {
+	    padding: 10px 15px;
+    }
+    </style>
+<nav class="slide">
+	<ul>
+		<li><a href="<{:U('Nation/index')}>" class="active">HOME</a></li>
+		<li><a href="">好文</a></li>
+		<li><a href="#">附近的人</a></li>
+		<li><a href="">发布图书</a></li>
+		<li><a href="">写文章</a></li>
+		<notempty name="userInfo">
+			<li> 
+				<!-- style="padding-top:10px;" -->
+				<a  id="head-a-img" href='/graduationproject/index.php/home/user/user/userid/<{$userInfo.userid}>.html'><img id="head-img" src="__PUBLIC__/img/bg.jpg"></a>
+				<!-- U('Blog/cate','cate_id=1&status=1') -->
+			</li>
+			<li><a id="log_out">退出</a></li>
+		<else/>
+			<li><a href="<{:U('Login/login')}>">SignIn/SignUp</a></li>
+		</notempty>
+		<li><a href="#">AboutUs</a></li>
+	</ul> 
+</nav>	
+
+<script>
+	$(function(){
+		$("li").find("#log_out").click(function(){
+			$.post('<{:U("Login/logOut")}>',{
+
+			},function(data){
+				location.reload();
+			});
+		});
+	})
+</script>		
+

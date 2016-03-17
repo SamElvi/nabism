@@ -1,0 +1,94 @@
+<style type="text/css">
+    #head-img{
+    	width: 40px;
+    	height: 40px;
+      background-repeat: round;
+	    display: block;
+    }
+    #head-a-img {
+	    padding: 1px 10px;
+    }
+    .nav a {
+    	margin-top: 15px;
+    }
+    #u-message{
+      padding: 0px;
+    }
+    .navbar-brand{
+      font-size: 30px;
+    }
+    </style>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">WEN DI</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#" style="color:white">WEN DI</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+          	<li><a href="<{:U('Nation/index')}>" class="active">HOME</a></li>
+			<li><a href='<{:U("Articles/index")}>'>好文</a></li>
+			<!-- <li><a href="#">附近的人</a></li> -->
+			<li><a href='<{:U("Books/donateBooks")}>'>发布图书</a></li>
+			<li><a href='<{:U("Articles/writeArticle")}>'>发布文章</a></li>
+			<notempty name="userInfo">
+				<li> 
+					<!-- style="padding-top:10px;" -->
+					<a  id="head-a-img" href='/graduationproject/index.php/home/user/user/userid/<{$userInfo.userid}>.html'>
+            <!-- <notempty name="userInfo.headerimage">
+                  <div id="head-img" style="background-image:url('<{$userImgInfo.imgurl}>')"></div>  
+                <else/>            
+                 <img id="head-img" src="__PUBLIC__/img/bg.jpg">
+            </notempty> -->
+
+            <notempty name="userImgInfo">
+              <img  id="head-img" src="__PUBLIC__/Uploads/Users/<{$userImgInfo}>">
+              <else/>
+              <img id="head-img" src="__PUBLIC__/img/default.gif">
+            </notempty>
+          </a>
+					<!-- U('Blog/cate','cate_id=1&status=1') -->
+				</li>
+        <!-- <li>
+          <a href="" id="u-message"><span class="badge">2</span></a>
+        </li> -->
+				<li><a id="log_out">退出</a></li>
+			<else/>
+				<li><a href="<{:U('Login/login')}>">SignIn/SignUp</a></li>
+			</notempty>
+            <!-- <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li> -->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+<script>
+	$(function(){
+		$("li").find("#log_out").click(function(){
+			$.post('<{:U("Login/logOut")}>',{
+			},function(data){
+				location.reload();
+			});
+		});
+	})
+</script>		

@@ -1,0 +1,195 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/jquery.Jcrop.css">
+<script type="text/javascript" src="__PUBLIC__/js/imgjs/ajaxfileupload.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/imgjs/jquery.Jcrop.js"></script>
+
+<!-- <script type="text/javascript" src="__PUBLIC__/js/imgjs/artDialog4.1.6/jquery.artDialog.js?skin=default"></script> -->
+<!-- <script type="text/javascript" src="__PUBLIC__/js/imgjs/artDialog4.1.6/plugins/iframeTools.js"></script> -->
+
+<style type="text/css">
+	#set-head-img{
+		display: none;
+	}
+</style>
+
+<script>
+$(document).ready(function(e){
+		
+	$('#head_photo').on('change',function(){ 
+		console.log('change');
+		ajaxFileUploadview('head_photo','photo_pic','<{:U("Img/getImg")}>');
+
+	});	
+});
+
+
+function show_head(head_file){
+}
+
+function createCutArea(imgurl){
+	console.log(imgurl);
+	var img = '<img id="operate-img" data-img="'+imgurl+'" src="__PUBLIC__/Uploads/Temp/'+imgurl+'">';
+	console.log(img);
+	$("#cut-img").empty();
+	$("#cut-img").append(img);
+	$("#start-cut").click();
+}
+
+//文件上传带预览
+function ajaxFileUploadview(imgid,hiddenid,url){
+		$.ajaxFileUpload
+		({
+			url:url,
+			secureuri:false,
+			fileElementId:imgid,
+			dataType: 'json',
+			data:{name:'logan', id:'id'},
+			success: function (data, status)
+			{
+				 if(data['msg'] == 0){
+				 	createCutArea(data['imgurl']);
+				 }else{
+				 	alert(data['error']);
+				 }
+			},
+			error: function (data, status, e)
+			{
+				alert(e);
+			},
+			complete: function(xmlHttpRequest) {  
+				$('#head_photo').on('change',function(){ 
+					console.log('change');
+					ajaxFileUploadview('head_photo','photo_pic','<{:U("Img/getImg")}>');
+				});	
+            }
+		});
+		return false;
+	}
+
+</script>
+<div style="margin-top:50px;margin-bottom:320px;text-align:center;">
+	<div class="form-group ">
+		<label>请上传不超过5MB的Jpg，Png，Jpeg，Gif图片</label>
+		<input type="file" name="head_photo" id="head_photo" value="" class="form-control">  
+		<input type="hidden" name="photo_pic" id="photo_pic" value="">
+	</div>
+
+	<!--头像显示-->
+	<div id="show_photo" style="text-align:center"><img style="width:200px;height:200px;margin-bottom:20px" id="head_photo_src" src="__PUBLIC__/img/default.gif">
+	</div>
+	<button class="btn btn-success" id="set-head-img">
+		设置为头像
+	</button>
+</div>
+
+
+
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" 
+   data-target="#myModal" id="start-cut" style="display:none">
+   开始截图
+</button>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" 
+               data-dismiss="modal" aria-hidden="true">
+                  &times;
+            </button>
+            <h4 class="modal-title" id="myModalLabel">
+               截图
+            </h4>
+         </div>
+         <div class="modal-body" >
+            <div id="cut-img" style="text-align:center; padding-left:34px">
+            </div>
+         </div>
+         <input type="hidden" id="x" name="x" />
+		 <input type="hidden" id="y" name="y" />
+		 <input type="hidden" id="w" name="w" />
+		 <input type="hidden" id="h" name="h" />	
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="close"
+               data-dismiss="modal">关闭
+            </button>
+            <button type="button" class="btn btn-primary" id="submit-img">
+               截图
+            </button>
+         </div>
+      </div><!-- /.modal-content -->
+</div><!-- /.modal -->
+</div>
+
+<script type="text/javascript">
+	$("#start-cut").click(function(){
+		corpImg();
+	});
+
+	function corpImg(){
+		console.log('corpImg');
+		$('#operate-img').Jcrop({
+	    	aspectRatio: 1,
+	    	onSelect: updateCoords,
+	    	boxWidth:500,
+	        boxHeight:500
+	    });
+	}
+
+	function updateCoords(c){
+	  $('#x').val(c.x);
+	  $('#y').val(c.y);
+	  $('#w').val(c.w);
+	  $('#h').val(c.h);
+	};
+
+	function checkCoords(){
+	  if (parseInt($('#w').val())) {
+	    return true;
+	  };
+	  alert('请先选择要裁剪的区域后，再提交。');
+	  return false;
+	};
+
+	$(function(){
+
+		$("#submit-img").click(function(){
+			if(checkCoords()){
+				$.post('<{:U("Img/saveCropImg")}>',{
+					x:$("#x").val(),
+					y:$("#y").val(),
+					w:$("#w").val(),
+					h:$("#h").val(),
+					img: $("#operate-img").data('img'),
+					type:'Users'
+				},function(data){
+					if(data['status'] ==1 ){
+						$("#head_photo_src").attr('src','__PUBLIC__/Uploads/Users/'+data['file']);
+						// $("#close")
+						$("#close").click();
+						$("#set-head-img").data('img',data['file']);
+						$("#set-head-img").show('slow');
+					}else{
+						alert(data['error']);
+					}
+				});
+			}
+		});
+
+		$("#set-head-img").click(function(){
+			$.post('<{:U("User/setUserHeadImg")}>',{
+				img:$(this).data('img'),
+			},function(data){
+				if(data['code'] === 0){
+					alert('保存失败');
+				}
+				else{
+					location.href = '<{:U("User/myspace")}>';
+				}
+			});
+		});
+	});
+
+</script>

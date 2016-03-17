@@ -1,0 +1,287 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/jquery.Jcrop.css">
+<script type="text/javascript" src="__PUBLIC__/js/imgjs/jquery.Jcrop.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/imgjs/ajaxfileupload.js"></script>
+
+<style>
+
+	#save_img{
+		margin-top: 20px;
+	}
+	#set-cover{
+		padding-left: 75px;
+		text-align: center;
+		/*display: none;*/
+	}
+	#book-cover{
+		text-align: center;
+	}
+	#bookimg { 
+		width: 300px;
+		height: 300px;
+	}
+	.content{
+		margin-top: 10px;
+		margin-bottom: 10px;
+		display: flex;
+	}
+</style>
+<script>
+$(document).ready(function(e){
+		
+	$('#head_photo').on('change',function(){ 
+		console.log('change');
+		ajaxFileUploadview('head_photo','photo_pic','<{:U("Img/getImg")}>');
+
+	});	
+});
+
+
+function show_head(head_file){
+}
+
+function createCutArea(imgurl){
+	console.log(imgurl);
+	var img = '<img id="operate-img" data-img="'+imgurl+'" src="__PUBLIC__/Uploads/Temp/'+imgurl+'">';
+	console.log(img);
+	$("#cut-img").empty();
+	$("#cut-img").append(img);
+	$("#start-cut").click();
+}
+
+//文件上传带预览
+function ajaxFileUploadview(imgid,hiddenid,url){
+		$.ajaxFileUpload
+		({
+			url:url,
+			secureuri:false,
+			fileElementId:imgid,
+			dataType: 'json',
+			data:{name:'logan', id:'id'},
+			success: function (data, status)
+			{
+				 if(data['msg'] == 0){
+				 	createCutArea(data['imgurl']);
+				 }else{
+				 	alert(data['error']);
+				 }
+			},
+			error: function (data, status, e)
+			{
+				alert(e);
+			},
+			complete: function(xmlHttpRequest) {  
+				$('#head_photo').on('change',function(){ 
+					console.log('change');
+					ajaxFileUploadview('head_photo','photo_pic','<{:U("Img/getImg")}>');
+				});	
+            }
+		});
+		return false;
+	}
+
+</script>
+<div class="row" style="margin-top:50px;margin-bottom:230px">
+	<div class="col-sm-8">
+		<div id="set-cover" class="clearfix">
+			<input type="file" name="head_photo" id="head_photo" value="" style="display:none">  
+			<input type="hidden" name="photo_pic" id="photo_pic" value="">
+			<!--头像显示-->
+			<div id="show_photo" style="border:1px solid #f7f7f7;">
+				<notempty name="book.cover">
+					<img style="width:150px;height:150px;" data-img="<{$book.cover}>" id="head_photo_src" src="__PUBLIC__/Uploads/Books/<{$book.cover}>">
+					<else/>
+					<img style="width:150px;height:150px;" data-img="" id="head_photo_src" src="__PUBLIC__/img/default.gif">
+				</notempty>
+			</div>
+
+
+			<!-- 按钮触发模态框 -->
+			<button class="btn btn-primary btn-lg" data-toggle="modal" 
+			   data-target="#myModal" id="start-cut" style="display:none">
+			   开始截图
+			</button>
+		</div>
+		<div class="form-horizontal">
+			<div class="content">
+				<label class="col-xs-3 .col-md-4 control-label">*书名</label>
+				<div class="col-xs-9 .col-md-4">
+					<input class="form-control" id="book-name" value="<{$book.title}>">
+				</div>
+			</div>
+			<div class="content">
+				<label class="col-xs-3 .col-md-4 control-label">*作者</label>
+				<div class="col-xs-9 .col-md-4">
+					<input class="form-control" id="book-author" value="<{$book.author}>">
+				</div>
+			</div>
+			<div class="content">
+				<label class="col-xs-3 .col-md-4 control-label">科目</label>
+				<div class="col-xs-9 .col-md-4">
+					<select class="form-control" id="book-type">
+						<volist name="books_type" id="type">
+							<eq name="book.type" value="$type.id">
+								<option value="<{$type.id}>" selected> <{$type.name}> </option>
+							<else/>
+								<option value="<{$type.id}>"> <{$type.name}> </option>
+							</eq>
+						</volist>
+					</select>
+				</div>
+			</div>
+			<div class="content">
+				<label class="col-xs-3 .col-md-4 control-label">*简介</label>
+				<div class="col-xs-9 .col-md-4">
+					<textarea class="form-control" id="book-introduction"><{$book.content.introduction}></textarea>
+				</div>
+			</div>
+			<div class="content">
+				<label class="col-xs-3 .col-md-4 control-label">我的书评</label>
+				<div class="col-xs-9 .col-md-4">
+					<textarea class="form-control" id="book-mycomment"><{$book.content.mycomment}></textarea>
+				</div>
+			</div>
+			<div class="content">
+				<label class="col-xs-3 .col-md-4 control-label">地理位置</label>
+				<div class="col-xs-9 .col-md-4">
+				
+				</div>
+			</div>
+		</div>
+		<button id="submit-book" class="btn btn-success col-md-offset-6">发布图书</button>
+
+	</div>
+	<div class="col-sm-3 col-sm-offset-1">
+		<h4>已发布图书：</h4>
+		<foreach name="mybooks" item="one" key="k">
+              <p><em><{$k}>: </em><a href="<{$one.uri}>">《<{$one.name}>》 作者：<{$one.author}></a><br>上架时间：<{$one.time}></p>
+        </foreach>
+	</div>
+</div>
+
+
+<!-- 模态框（Modal） -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+			   aria-labelledby="myModalLabel" aria-hidden="true">
+			   <div class="modal-dialog">
+			      <div class="modal-content">
+			         <div class="modal-header">
+			            <button type="button" class="close" 
+			               data-dismiss="modal" aria-hidden="true">
+			                  &times;
+			            </button>
+			            <h4 class="modal-title" id="myModalLabel">
+			               截图
+			            </h4>
+			         </div>
+			         <div class="modal-body" >
+			            <div id="cut-img" style="text-align:center; padding-left:34px">
+			            </div>
+			         </div>
+			         <input type="hidden" id="x" name="x" />
+					 <input type="hidden" id="y" name="y" />
+					 <input type="hidden" id="w" name="w" />
+					 <input type="hidden" id="h" name="h" />	
+			         <div class="modal-footer">
+			            <button type="button" class="btn btn-default" id="close"
+			               data-dismiss="modal">关闭
+			            </button>
+			            <button type="button" class="btn btn-primary" id="submit-img">
+			               截图
+			            </button>
+			         </div>
+			      </div><!-- /.modal-content -->
+				</div><!-- /.modal -->
+			</div>
+
+<script>
+	var book_id = '<{$book.id}>';
+
+
+	$(function(){
+		$("#submit-book").click(function(){
+			var bookname = $("#book-name").val(),
+			author = $("#book-author").val(),
+			type = $("#book-type option:selected").val(),
+			introduction = $("#book-introduction").val(),
+			cover = $("#head_photo_src").data('img');
+			mycomment = $("#book-mycomment").val();
+			if(bookname =='' || author =='' || introduction ==''){
+				alert('*号为必填项目 请填写完整');
+				return ;
+			}
+			$.post('<{:U("Books/publicBook")}>',{
+				bookid:book_id,
+				name:bookname,
+				author:author,
+				introduction:introduction,
+				type:type,
+				comment:mycomment,
+				cover:cover,
+			},function(data){
+				if(data['code'] == 1){
+					location.reload();
+				}else{
+					alert(data['name']);
+					// location.reload();
+				}
+			});
+		});
+	});
+
+	$("#start-cut").click(function(){
+		corpImg();
+	});
+
+	function corpImg(){
+		console.log('corpImg');
+		$('#operate-img').Jcrop({
+	    	aspectRatio: 1,
+	    	onSelect: updateCoords,
+	    	boxWidth:500,
+	        boxHeight:500
+	    });
+	}
+
+	function updateCoords(c){
+	  $('#x').val(c.x);
+	  $('#y').val(c.y);
+	  $('#w').val(c.w);
+	  $('#h').val(c.h);
+	};
+
+	function checkCoords(){
+	  if (parseInt($('#w').val())) {
+	    return true;
+	  };
+	  alert('请先选择要裁剪的区域后，再提交。');
+	  return false;
+	};
+
+	$(function(){
+		$("#head_photo_src").click(function(){
+			$("#head_photo").click();
+		});
+
+		$("#submit-img").click(function(){
+			if(checkCoords()){
+				$.post('<{:U("Img/saveCropImg")}>',{
+					x:$("#x").val(),
+					y:$("#y").val(),
+					w:$("#w").val(),
+					h:$("#h").val(),
+					img: $("#operate-img").data('img'),
+					type:'Books'
+				},function(data){
+					if(data['status'] ==1 ){
+						$("#head_photo_src").attr('src','__PUBLIC__/Uploads/Books/'+data['file']);
+						$("#head_photo_src").attr('data-img',data['file']);
+						$("#close").click();
+					}else{
+						alert(data['error']);
+					}
+				});
+		}
+		});
+	});
+
+</script>

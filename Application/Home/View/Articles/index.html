@@ -1,0 +1,39 @@
+<style type="text/css">
+	.article-user{
+		height: 100px;
+		width: 100px;
+	}
+
+	.articles-container{
+		padding-left:250px;
+		padding-right:250px;
+	}
+
+	@media (max-width: 600px) {
+		  .articles-container{
+		  	padding-left: 10px;
+		  	padding-right: 10px;
+		  }
+		}
+
+</style>
+<div class="articles-container">
+	<volist name="articles" id="article">
+		<div class="row well">
+				<div class="col-xs-4 col-md-2">
+					<notempty name="article.img">
+							<img class="article-user" src="__PUBLIC__/Uploads/Users/<{$article['img']}>">
+						<else/>
+							<img class="article-user" src="__PUBLIC__/img/bg.jpg">
+					</notempty>
+				</div>
+				<div class="col-xs-8 col-md-10">
+					<div> <a href="<{$article['uri']}>" target="_blank"><h4>《<{$article['title']}>》</h4></a></div>
+					<div><label>作者：<{$article['author']}></div>
+					<div><label>发表时间：<{$article['ctime']}></label></div>
+				</div>
+		</div>
+	</volist>
+
+</div>
+	

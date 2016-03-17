@@ -1,0 +1,65 @@
+<style>
+	#clipArea {
+		margin: 20px;
+		height: 400px;
+	}
+
+	#view {
+		margin: 0 auto;
+		width: 300px;
+		height: 300px;
+	}
+	#save_img{
+		margin-top: 20px;
+	}
+</style>
+<div id="clipArea"></div>
+<div class="row">
+	<div class="form-group col-sm-3 col-md-4 col-md-offset-2">
+		<input type="file" id="file" class="form-control">
+	</div>
+	<div class="form-group col-sm-3 col-md-4">
+		<button id="clipBtn" class="form-control btn-primary">截取</button>
+	</div>
+</div>
+<div id="view"></div>
+<div class="form-group col-sm-3 col-md-4 col-md-offset-4">
+		<button id="save_img" class="form-control" disabled>保存</button>
+</div>
+<script src="__PUBLIC__/cutimgjs/iscroll-zoom.js"></script>
+<script src="__PUBLIC__/cutimgjs/hammer.js"></script>
+<script src="__PUBLIC__/cutimgjs/jquery.photoClip.js"></script>
+<script>
+	//document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+	var dmess;
+	$("#clipArea").photoClip({
+		width: 300,
+		height: 300,
+		file: "#file",
+		view: "#view",
+		ok: "#clipBtn",
+		loadStart: function() {
+			console.log("照片读取中");
+		},
+		loadComplete: function() {
+			console.log("照片读取完成");
+		},
+		clipFinish: function(dataURL) {
+			dmess = dataURL;
+			if(dmess!=''){
+				$("#save_img").addClass("btn-success");
+				$("#save_img").attr('disabled',false);
+			}
+		}
+	});
+
+	$(function(){
+		$("#save_img").click(function(){
+			$.post('<{:U("Img/uploadUserImg")}>',{imgdata:dmess},function(data) {
+				if(data['code'] == 1){
+					location.href = data['uri'];
+				}
+			});
+		});
+	});
+</script>

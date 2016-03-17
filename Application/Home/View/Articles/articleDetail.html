@@ -1,0 +1,25 @@
+
+<style type="text/css">
+	img{
+		max-width: 600px;
+		max-height: 600px;
+	}
+	@media (max-width: 600px) {
+		  img{
+				max-width: 300px;
+				max-height: 300px;
+			}
+		}
+</style>
+<div class="row" style="margin-bottom:300px;">
+	<div class="col-sm-8 col-sm-offset-1" style="margin-top:40px">
+			<{$article.content}>
+	</div>
+	<div class="col-sm-3" style="margin-top:100px;">
+		<div class="sidebar-module sidebar-module-inset">
+            <h3><{$article.title}></h3>
+            <p>作者：<em><a href="<{$author.user_uri}>" target="balnk"><{$author.name}></a></em></p>
+            <p>发表时间：<em><{$article.ctime}></em></p>
+         </div>
+	</div>
+</div>

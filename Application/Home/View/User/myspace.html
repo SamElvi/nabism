@@ -1,0 +1,340 @@
+<style type="text/css">
+	/*
+	 * Masthead for nav
+	 */
+
+	.blog-masthead {
+	  background-color: #428bca;
+	  -webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
+	          box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
+	}
+
+	/* Nav links */
+	.blog-nav-item {
+	  position: relative;
+	  display: inline-block;
+	  padding: 10px;
+	  font-weight: 500;
+	  color: #cdddeb;
+	}
+	.blog-nav-item:hover,
+	.blog-nav-item:focus {
+	  color: #fff;
+	  text-decoration: none;
+	}
+
+	/* Active state gets a caret at the bottom */
+	.blog-nav .active {
+	  color: #fff;
+	}
+	.blog-nav .active:after {
+	  position: absolute;
+	  bottom: 0;
+	  left: 50%;
+	  width: 0;
+	  height: 0;
+	  margin-left: -5px;
+	  vertical-align: middle;
+	  content: " ";
+	  border-right: 5px solid transparent;
+	  border-bottom: 5px solid;
+	  border-left: 5px solid transparent;
+	}
+
+	.myspace{
+		margin-top: 20px;
+		/*font-size: 20px;*/
+		margin-bottom: 100px;
+	}
+
+	.my-head {
+		text-align: center;
+	}
+
+	.sys-font-type,.use-font-type{
+		font-size: 20px;
+	}
+	.sys-font-type,.note-font-type{
+		color: darkgrey;
+	}
+	.use-font-type{
+		color: ;
+	}
+	.form-group{
+		margin-top: 5px;
+		margin-bottom: 0px;
+	}
+	#userimg { 
+		width: 300px;
+		height: 300px;
+	}
+
+	.space-book-cover{
+		height: 50px;
+		width: 50px;
+	}
+</style>
+<!-- <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href="#">个人信息</a>
+          <a class="blog-nav-item" href="#">我的书架</a>
+          <a class="blog-nav-item" href="#">我的文章</a>
+          <a class="blog-nav-item" href="#">我的信息
+          	<span class="badge">2</span>
+          </a>
+          <a class="blog-nav-item" href="#">About</a>
+        </nav>
+      </div>
+</div> -->
+<div class="myspace">
+	<div class="my-head">
+		<a id="img_change">
+			<!-- <notempty name="userImgInfo.imgurl">
+				<div class="img-thumbnail"  style="background-repeat: round; background-image:url('<{$userImgInfo.imgurl}>')"></div>  
+            <else/>  	          
+				<img data-src="holder.js/300x300" class="img-thumbnail" alt="300x300" src="__PUBLIC__/img/bg.jpg" style="width: 300px; height: 300px;">
+			</notempty> -->
+			<notempty name="my_userinfo.headerimage">
+					<img  id="userimg" src="__PUBLIC__/Uploads/Users/<{$my_userinfo.headerimage}>">
+					<else/>
+					<img style="width:150px;height:150px;" src="__PUBLIC__/img/default.gif">
+			</notempty>
+		</a>
+	</div>
+	<hr />
+	<div class="form-horizontal " >
+        <div class="form-group">
+            <label class="col-xs-6 .col-md-4 control-label">ID</label>
+            <div class="col-xs-6 .col-md-4 ">
+            	<label class="control-label"><{$my_userinfo.id}></label>
+            </div>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-6 .col-md-4 control-label">昵称</label>
+        	<div class="col-xs-6 .col-md-4 user-name-div">
+        		<label class="control-label"><a id="text-username"><{$my_userinfo.name}></a></label>
+        	</div>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-6 .col-md-4 control-label">邮箱/帐号</label>
+        	<div class="col-xs-6 .col-md-4 user-account-div">
+        		<label class="control-label"><a id="text-account"><{$my_userinfo.email}></a></label>
+        	</div>
+        </div>
+        <div class="form-group">
+        	<label class="col-xs-6 .col-md-4 control-label">个性签名</label>
+        	<div class="col-xs-6 .col-md-4 user-introduction-div">
+        		<empty name="my_userinfo.selfintroduction">
+        			<label class="control-label"><a id="text-introduction">编辑</a></label>
+        		<else/>
+        			<label class="control-label"> <a id="text-introduction"><{$my_userinfo.selfintroduction}></a></label>
+        		</empty>
+        	</div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-6 .col-md-4 control-label">藏书量</label>
+            <div class="col-xs-6 .col-md-4">
+        		<if condition="($my_userinfo.books neq 0)">
+            		<label class="control-label"><{$my_userinfo.books}></label>
+            	<else/>
+            		<label class="control-label"><a href="<{:U("Books/donateBooks")}>">发布图书</a></label>
+            	</if>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-6 .col-md-4 control-label">文章</label>
+            <div class="col-xs-6 .col-md-4">
+            	<if condition="($my_userinfo.articles neq 0)">
+            		<label class="control-label"><{$my_userinfo.articles}></label>
+            	<else/>
+            		<label class="control-label"><a href="<{:U('Articles/writearticle')}>">发布文章</a></label>
+            	</if>
+            </div>
+        </div>
+    </div>
+
+	<hr />
+	<div class="books-articles">
+		<div class="row">
+			<div class="col-xs-6 .col-md-6 ">
+				<volist name="mybooks" id="book">
+					<div class="well" id="<{$book['id']}>">
+						<img class="space-book-cover" src="__PUBLIC__/Uploads/Books/<{$book['cover']}>">
+						<a href="<{$book['uri']}>" target="_blank"><label>《<{$book['title']}>》发布时间：<{$book['ctime']}></label></a>
+						<button class="btn btn-danger btn-xs deleteBook">删除</button>
+						<a href="<{$book['alterUri']}>" class="btn btn-info btn-xs" target="_blank">修改</a>
+					</div>
+				</volist>	
+			</div>
+			<div class="col-xs-6 .col-md-6"> 
+				<volist name="myarticles" id="article">
+					<div class="well" id="<{$article['id']}>">
+						<a href="<{$article['uri']}>" target="_blank">
+							《<{$article['title']}>》
+						</a>
+						<button class="deleteArticle btn btn-danger btn-xs">删除</button>
+						<a href="<{$article['alterUri']}>" class="btn btn-info btn-xs" target="_blank">修改</a>
+						<p class="text-muted small"> &nbsp;&nbsp;发表时间:<{$article['ctime']}></p>
+					</div>
+				</volist>
+			</div>
+		</div>
+	</div>
+	
+
+</div>
+
+					
+
+
+
+<script>
+	$(function() {
+		$(".myspace").find("#img_change").click(function(){
+			location.href='<{:U("Img/imageUpload")}>';
+		});
+		$("#text-username").click(function(){
+
+			if($("#text-username").data('alter') === 'on' ){
+				$(".save-username-div").remove();
+				$("#text-username").data('alter','off');
+			}
+			else{
+				var str = '<div class="form form-inline save-username-div"><input id="new-username" type="text" class="form-control">'
+						+'<button id="save-username" class="btn btn-success">保存</button></div>'
+				$(".user-name-div").append(str);
+				$("#text-username").data('alter','on');
+			}
+		});
+
+		$(".form-horizontal").delegate('#save-username','click',function(){
+			var new_username = deleteEmptyStr($('#new-username').val());
+			if(new_username !==''){
+				$.post('<{:U("User/updateUserName")}>',{
+					username:new_username
+				},function(data){
+					if(data.code ===1){
+						$("#text-username").text(new_username);
+						$(".save-username-div").remove();
+					}else{
+						alert(data.name);
+						return ;
+					}
+				});
+			}else{
+				$(".save-username-div").remove();
+				$("#text-username").data('alter','off');
+				return;
+			}
+		});
+
+		$("#text-account").click(function(){
+			if($("#text-account").data('alter') === 'on' ){
+				$(".save-account-div").remove();
+				$("#text-account").data('alter','off');
+			}
+			else{
+				var str = '<div class="form form-inline save-account-div"><input id="new-account" type="text" class="form-control">'
+						+'<button id="save-account" class="btn btn-success">保存</button></div>'
+				$(".user-account-div").append(str);
+				$("#text-account").data('alter','on');
+			}
+		});
+
+		$(".form-horizontal").delegate('#save-account','click',function(){
+			var new_account = deleteEmptyStr($('#new-account').val());
+			if(new_account !==''){
+				$.post('<{:U("User/updateUserAccount")}>',{
+					useraccount:new_account
+				},function(data){
+					if(data.code ===1){
+						$("#text-account").text(new_account);
+						$(".save-account-div").remove();
+					}else{
+						alert(data.name);
+						return ;
+					}
+				});
+			}else{
+				$(".save-account-div").remove();
+				$("#text-account").data('alter','off');
+				return;
+			}
+		});
+
+		$("#text-introduction").click(function(){
+			if($("#text-introduction").data('alter') === 'on' ){
+				$(".save-introduction-div").remove();
+				$("#text-introduction").data('alter','off');
+			}
+			else{
+				var str = '<div class="form form-inline save-introduction-div">'
+					+'<textarea id="new-introduction" class="form-control"></textarea>'
+						+'<button id="save-introduction" class="btn btn-success">保存</button></div>'
+				$(".user-introduction-div").append(str);
+				$("#text-introduction").data('alter','on');
+			}
+		});
+
+		$(".form-horizontal").delegate('#save-introduction','click',function(){
+			var new_introduction = deleteEmptyStr($('#new-introduction').val());
+			if(new_introduction !==''){
+				$.post('<{:U("User/updateUserIntroduction")}>',{
+					userintroduction:new_introduction
+				},function(data){
+					if(data.code ===1){
+						$("#text-introduction").text(new_introduction);
+						$(".save-introduction-div").remove();
+					}else{
+						alert(data.name);
+						return ;
+					}
+				});
+			}else{
+				$(".save-introduction-div").remove();
+				$("#text-introduction").data('alter','off');
+				return;
+			}
+		});
+
+		$(".deleteBook").click(function(){
+			$parent = $(this).parent();
+			if(confirm('是要删除这本书吗？')){
+				$.post('<{:U("Books/deleteBook")}>',{
+					bookid:$(this).parent().attr('id')
+				},function(data){
+					if(data['code'] == 1){
+						console.log('remove');
+						$parent.remove();
+					}
+					else{
+						alert(data['name']);
+					}
+				});
+			}
+		});
+
+		$(".deleteArticle").click(function(){
+			$parent = $(this).parent();
+			if (confirm('是要删除这篇文章吗?')) {
+				$.post('<{:U("Articles/deleteArticle")}>',{
+					'article_id':$(this).parent().attr('id'),
+				},function(data){
+					if(data['code']==1){
+						console.log('remove');
+						$parent.remove();
+					}else{
+						alert(data['name']);
+					}
+				});
+			};
+		});
+
+		function deleteEmptyStr(str){
+      		str = str.replace(/\s+/g,"");
+     	 	return str;
+    	}
+
+	});
+</script>

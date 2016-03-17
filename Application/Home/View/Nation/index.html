@@ -1,0 +1,112 @@
+<style type="text/css">
+		.grid {
+  
+		  position: relative;
+
+		  /* fluffy */
+		  margin: 0 auto;
+		  width: 98%;
+		  /* end fluffy */
+		}
+
+		.grid-item {
+		  position: absolute;
+
+		   /* fluffy */
+		  opacity: 0;
+		   /*box-shadow: 1px 1px #9E9E9E;*/
+		   width: 300px;
+		   height: auto; 
+		   /*border-radius: 3px;*/
+		   /*background-color: #536DFE;*/
+		   border-bottom: 1px solid;
+		   /* end fluffy */
+		}
+		.book-cover{
+			width: 290px;
+			height: 290px;
+		}
+
+		/* mq */
+
+		@media (max-width: 600px) {
+		  .grid-item {
+		    width: 120px;
+		    height: 150px;
+		  }
+		  .book-cover{
+			width: 110px;
+			height: 110px;
+			}
+		}
+
+		.book-title {
+			font-size: 20px;
+			margin-left: 0px;
+		}
+		.cover-img{
+		   text-align: center;
+		}
+		.introduct{
+			padding-left: 10px;
+			color: #D5D6E2;
+			margin-bottom: 0px;
+		}
+	</style>
+	<div class="grid">
+		<volist name="bookList" id="book">
+			<div class="grid-item">
+				<a href="<{$book['uri']}>" target="blank">
+					<div class="cover-img">
+						<img class="book-cover " src="__PUBLIC__/Uploads/Books/<{$book['cover']}>">
+						<!-- img-rounded -->
+					</div>
+					<div>
+					 	<label class="book-title ">《<{$book['title']}>》</label> 
+					 	<label class="book-author">by: <{$book['author']}> </label>
+					</div>
+				</a>
+				<div>
+					<p class='introduct'>
+						<label style="color:#337ab7;">
+							简介:
+						</label>
+						<{$book['content']['introduction']}>
+					</p>
+				</div>
+				<div>
+					<p class='introduct'>
+						<label style="color:#337ab7;">
+							点评:
+						</label>
+						<{$book['content']['mycomment']}>
+					</p>
+				</div>
+			</div>
+		</volist>
+	</div>
+
+	<script src="__PUBLIC__/js/dynamics.js"></script>
+	<script src="__PUBLIC__/js/minigrid.js"></script>
+    <script>
+      (function(){
+		 function animate(item, x, y, index) {
+		   dynamics.animate(item, {
+		     translateX: x,
+		     translateY: y,
+		     opacity: 1
+		    }, {
+		      type: dynamics.spring,
+		      duration: 800,
+		      frequency: 120,
+		      delay: 100 + index * 30
+		    });
+		  }
+		  
+		  minigrid('.grid', '.grid-item', 7, animate);
+
+		  window.addEventListener('resize', function(){
+		    minigrid('.grid', '.grid-item', 7, animate);
+		  });
+		})();
+    </script>

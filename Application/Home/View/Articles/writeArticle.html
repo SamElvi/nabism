@@ -1,0 +1,73 @@
+
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/bootstrap3-wysihtml5.min.css"></link>
+<!-- <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/blog.css"> -->
+
+<div class="row">
+	<div class="col-sm-10 ">
+		<div class="jumbotron" style="margin-top:40px">
+			<div class="form-inline">
+				<input type="text" class="form-control title" style="width:400px" value="<{$article.title}>" placeholder="输入标题(限20字)">
+				<button class="btn btn-success publish ">发布文章</button>
+				<button class="btn btn-primary draft">存为草稿</button>
+			</div>
+			<hr style="border-color: white"/>
+			<textarea class="textarea form-control" placeholder="Enter text ..." style="width: 100%; height: 800px; font-size: 14px; line-height: 18px;" data-id="<{$article.id}>"><{$article.content}></textarea>
+		</div>
+	</div>
+	<div class="col-sm-2" style="margin-top:40px;">
+		<div class="sidebar-module sidebar-module-inset">
+            <h4>草稿：</h4>
+            <foreach name="draftsList" item="draft" key="k">
+              <p><em><{$k}>: </em><a href="<{$draft.uri}>">《<{$draft.title}>》</a><br>  <{$draft.ctime}></p>
+            </foreach>
+     </div>
+	</div>
+</div>
+
+<script src="__PUBLIC__/js/bootstrap3-wysihtml5.all.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/bootstrap-wysihtml5.zh-CN.js"></script>
+<script>
+  var article_id = '<{$article.id}>';
+  $('.textarea').wysihtml5({
+  	locale: "zh-CN",
+	});
+
+  $(function() {
+  	$(".jumbotron").find(".publish").click(function(){
+  		saveText(1);
+  		console.log(1);
+  	});
+
+  	$(".jumbotron").find(".draft").click(function(){
+  		saveText(0);
+  		console.log(0);
+  	});
+
+  	function saveText(type){
+  		var title = $(".title").val();
+  		var content = $(".textarea").val();
+  		if(title!=='' && content !==''){
+  			$.post('<{:U("Articles/saveArticle")}>',{
+  				title:title,
+  				content:content,
+  				type:type,
+          article_id:article_id
+  			},function(data){
+          if(data['code'] ==1){
+            location.href=data['uri'];
+            return ;
+          }else if(data['code']){
+            location.reload();
+            return ;
+          }else{
+            alert(data['name']);
+          }
+  			});
+  		}else{
+  			alert("请完善内容再保存或者发表");
+  			return;
+  		}
+  		
+  	}
+  });
+</script>

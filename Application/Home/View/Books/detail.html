@@ -1,0 +1,84 @@
+<style type="text/css">
+	.cover{
+		text-align: center;
+	}
+	.cover-img{
+		width: 300px;
+		height: 300px;
+	}
+	.user-img{
+		height: 100px;
+		width: 100px;
+	}
+
+	.little-cover{
+		width: 50px;
+		height: 50px
+	}
+</style>
+<div class="row" style="margin-bottom:60px;margin-top:50px">
+	<div class="col-sm-8" style="border-right: 1px solid">
+		<div class="cover">
+			<img class="cover-img" src="__PUBLIC__/Uploads/Books/<{$book['cover']}>">
+		</div>
+		<div class="form-horizontal">
+			<div class="form-group">
+	            <label class="col-xs-5 .col-md-4 control-label">书名</label>
+	            <div class="col-xs-6 .col-md-4 ">
+	            	<label class="control-label"><{$book['title']}></label>
+	            </div>
+        	</div>
+        	<div class="form-group">
+	            <label class="col-xs-5 .col-md-4 control-label">作者</label>
+	            <div class="col-xs-6 .col-md-4 ">
+	            	<label class="control-label"><{$book['author']}></label>
+	            </div>
+        	</div>
+        	<div class="form-group">
+	            <label class="col-xs-5 .col-md-4 control-label">简介</label>
+	            <div class="col-xs-6 .col-md-4 ">
+	            	<label class="control-label"><{$book['content']['introduction']}></label>
+	            </div>
+        	</div>
+        	<div class="form-group">
+	            <label class="col-xs-5 .col-md-4 control-label">评论</label>
+	            <div class="col-xs-6 .col-md-4 ">
+	            	<label class="control-label"><{$book['content']['mycomment']}></label>
+	            </div>
+        	</div>
+        	<div class="form-group">
+	            <label class="col-xs-5 .col-md-4 control-label">分享者</label>
+	            <div class="col-xs-6 .col-md-4 ">
+	            	<label class="control-label"><{$book_user['name']}></label>
+	            </div>
+        	</div>
+        	<div class="form-group">
+	            <label class="col-xs-5 .col-md-4 control-label">联系方式</label>
+	            <div class="col-xs-6 .col-md-4 ">
+	            	<label class="control-label"><{$book_user['email']}></label>
+	            </div>
+        	</div>
+		</div>
+	</div>
+	<div class="col-sm-4" >
+		<div class="book-user" style="text-align:center">
+			<img class="user-img" src="__PUBLIC__/Uploads/Users/<{$book_user['img']}>">
+			<p>分享者：<{$book_user['name']}></p>
+			<p>Email：<{$book_user['email']}></p>
+        	<label>他还分享的图书：</label>
+		</div>
+		<volist name="user_books" id="ubook">	
+			<div class="row" style="padding-left:50px">
+				<a href='<{$ubook["uri"]}>'>
+					<div class='col-xs-2 .col-md-2' >
+						<img class="little-cover" src="__PUBLIC__/Uploads/Books/<{$ubook['cover']}>">
+					</div>
+					<div class="col-xs-10 .col-md-10 ">
+						<p><{$ubook.title}></p>
+						<p><{$ubook.author}></p>
+					</div>
+				</a>
+	        </div> 
+    	</volist>
+	</div>
+</div>

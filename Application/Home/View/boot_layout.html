@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<include file="Public:metaFile" />
+	<include file="Public:boot_header_css" />
+	<style type="text/css">
+		body {
+		  padding-top: 70px;
+		}
+
+		.theme-dropdown .dropdown-menu {
+		  position: static;
+		  display: block;
+		  margin-bottom: 20px;
+		}
+
+		.theme-showcase{
+			padding-bottom: 50px;
+		}
+
+		.theme-showcase > p > .btn {
+		  margin: 5px 0;
+		}
+
+		.theme-showcase .navbar .container {
+		  width: auto;
+		}
+
+		.footer {
+		  /*position: absolute;*/
+		  bottom: 0;
+		  width: 100%;
+		  /* Set the fixed height of the footer here */
+		  height: 60px;
+		  background-color: #f5f5f5;
+		}
+	</style>
+</head>
+<body role="document">
+	<include file="Public:boot_header"/>
+	<div class="container theme-showcase" role="main" style=”clear:both;”>
+	{__CONTENT__}
+	</div>
+	<include file="Public:boot_footer"/>
+	<include file="Public:boot_bottom_js" />
+</body>
+</html>
