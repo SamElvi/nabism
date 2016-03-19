@@ -70,12 +70,12 @@
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">National Library</span>
+            <span class="sr-only">WEN DI</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#" style="color:white">National Library</a>
+          <a class="navbar-brand" href="#" style="color:white">WEN DI</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -308,12 +308,16 @@
 	padding-bottom: 20px;
 	padding-top: 10px;
 }
+
+
+
 </style>
     <style type="text/css"></style>
     <footer class="footer" style="height:auto">
       <div class="footer-content">
         <p class="text-muted center-block">National Library 是有许广保搭建</p>
-        <p class="text-muted center-block">感谢Bootstrap提供免费开源代码,感谢ThinkPHP提供免费开源框架,感谢Xampp提供免费静态服务器</p>	
+        <p class="text-muted center-block">感谢<a href="http://www.bootcss.com/" target="_blank">Bootstrap</a>,感谢<a href="http://www.thinkphp.cn/" target="_blank">ThinkPHP</a>,感谢 
+          <a href="https://www.apachefriends.org/zh_cn/index.html" target="_blank">Xampp</a>,感谢<a href="https://jquery.com/" target="_blank">jQuery</a>,等免费开源项目支持</p>	
        	<a href="">关于我AboutMe</a>
       </div>
     </footer>

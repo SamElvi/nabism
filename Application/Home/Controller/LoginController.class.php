@@ -94,7 +94,9 @@ class LoginController extends BaseController {
         // $this->ajaxReturn();
     }
 
-
+    public function forgot(){
+        $this->display();
+    }
 
 
 

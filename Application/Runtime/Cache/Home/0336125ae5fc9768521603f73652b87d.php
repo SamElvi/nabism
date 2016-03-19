@@ -136,40 +136,32 @@
 
 	<div class="container theme-showcase" role="main" style=”clear:both;”>
 	<style type="text/css">
-	.article-user{
-		height: 100px;
-		width: 100px;
+	.wen-forgot{
+		margin-top: 20%;
+		margin-bottom: 20%;
+		width: 40%;
 	}
-
-	.articles-container{
-		padding-left:250px;
-		padding-right:250px;
-	}
-
 	@media (max-width: 600px) {
-		  .articles-container{
-		  	padding-left: 10px;
-		  	padding-right: 10px;
-		  }
+		.wen-forgot{
+			margin-top: 20%;
+			margin-bottom: 80%;
+			width: 100%;
 		}
-
+	}
+	.wen-forgot>input{
+		margin-bottom: 4px;
+	}
 </style>
-<div class="articles-container">
-	<?php if(is_array($articles)): $i = 0; $__LIST__ = $articles;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$article): $mod = ($i % 2 );++$i;?><div class="row well">
-				<div class="col-xs-4 col-md-2">
-					<?php if(!empty($article["img"])): ?><img class="article-user" src="/graduationproject/Public/Uploads/Users/<?php echo ($article['img']); ?>">
-						<?php else: ?>
-							<img class="article-user" src="/graduationproject/Public/img/bg.jpg"><?php endif; ?>
-				</div>
-				<div class="col-xs-8 col-md-10">
-					<div> <a href="<?php echo ($article['uri']); ?>" target="_blank"><h4>《<?php echo ($article['title']); ?>》</h4></a></div>
-					<div><label>作者：<?php echo ($article['author']); ?></div>
-					<div><label>发表时间：<?php echo ($article['ctime']); ?></label></div>
-				</div>
-		</div><?php endforeach; endif; else: echo "" ;endif; ?>
 
-</div>
-	
+
+	<div class="wen-forgot center-block">
+		<input class="form-control" id="email" type="text" placeholder="请输入注册时的email地址">
+		<input class="form-control" type="text" placeholder="请输入新密码">
+		<input class="form-control " type="text" placeholder="请输入wendi寄给你的验证码">
+		<button class="btn btn-success form-control">更改密码</button>
+	</div>
+
+
 	</div>
 	<style type="text/css">
 .footer-content{
