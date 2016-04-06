@@ -106,7 +106,6 @@ class LoginController extends BaseController {
         $password = $password ? md5($password) : '';
         $code = I('post.code');
         $code = $code ? md5($code) : '';
-        var_dump($code,$account,$password);
         if(empty($account) || empty($password) || empty($code)){
             $error['name'] = '填写信息不完整';
             $error['code'] = 0;
@@ -114,13 +113,12 @@ class LoginController extends BaseController {
         }
         $db_login = D('login');
         $user = $db_login->checkLoginInfo(array('account'=>$account));
-        var_dump($user);
         if(!is_array($user) || $user['account'] != $account){
             $error['name'] = '此用户不存在';
             $error['code'] = 2;
         }
         $db_code = D('changecode');
-        $hascode = $db_code->findChangeCode(array('account'=>$account,'code'=>$code));
+        $hascode = $db_code->findChangeCode(array('account'=>$account));
         var_dump($hascode);
         if($hascode['account'] == $account && $code == $hascode['code']){
             $update = $db_login->updateLoginInfoByid($user['id'],array('password'=>$password));
