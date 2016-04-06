@@ -51,7 +51,10 @@
 				},
 				dataType:'json'
 			}).done(function(data){
-
+				alert(data.name);
+				if(data.code){
+					location.href = '<{:U("Login/login")}>';
+				}
 			});
 		});
 		$("#sent-checkcode").click(function(){
