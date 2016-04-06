@@ -22,12 +22,12 @@ class ChangecodeModel extends BaseModel{
         $option['code'] = md5($code);
         $this->deleteCodeByAccount($account);
         $md_code->create();
-        $md_code->add($option);
+        return $md_code->add($option);
     }
 
     public function deleteCodeByAccount($account){
         $md_code = D('changecode');
-        $md_code->delete(array('account'=>$account));
+        return $md_code->delete(array('account'=>$account));
     }
 
 
