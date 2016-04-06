@@ -27,7 +27,7 @@ class ChangecodeModel extends BaseModel{
 
     public function deleteCodeByAccount($account){
         $md_code = D('changecode');
-        return $md_code->where('account = '.$account)->delete();
+        return $md_code->where('account = "'.$account.'"')->delete();
     }
 
 
