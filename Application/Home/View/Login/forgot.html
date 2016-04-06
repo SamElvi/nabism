@@ -19,8 +19,68 @@
 
 	<div class="wen-forgot center-block">
 		<input class="form-control" id="email" type="text" placeholder="请输入注册时的email地址">
-		<input class="form-control" type="text" placeholder="请输入新密码">
-		<input class="form-control " type="text" placeholder="请输入wendi寄给你的验证码">
-		<button class="btn btn-success form-control">更改密码</button>
+		<input class="form-control" id="password" type="text" placeholder="请输入新密码">
+		<input class="form-control " id="code" type="text" placeholder="请输入wendi寄给你的验证码">
+		<button class="btn btn-success form-control" id="sub-changePass" >更改密码</button>
+		<button class="btn btn-primary form-control" id="sent-checkcode">发送验证码</button>
 	</div>
+
+<script type="text/javascript">
+	$(function () {
+		$("#sub-changePass").click(function(){
+			var password = $("#password").val();
+			password = password.replace(/\s+/g,"");
+			var email = deleteEmptyStr($("#email").val());
+			var code = deleteEmptyStr($("#code").val());
+			
+			if(password =="" || email=="" || code ==""){
+				alert('请将信息填写完整');
+				return ;
+			}
+			if(!checkemail(email)){
+				alert('电子邮件填写不正确');
+				return ;
+			}
+			$.ajax({
+				type:"POST",
+				url:'<{:U("Login/changPasswordByForgot")}>',
+				data:{
+					email:email,
+					password:password,
+					code:code
+				},
+				dataType:'json'
+			}).done(function(data){
+
+			});
+		});
+		$("#sent-checkcode").click(function(){
+			var email = deleteEmptyStr($("#email").val());
+			if(!checkemail(email)){
+				alert('电子邮件填写不正确');
+				return ;
+			}
+			$.ajax({
+				type:"POST",
+				url:'<{:U("Login/sentChangePasswordCode")}>',
+				data:{
+					email:email,
+				},
+				dataType:'json'
+			}).done(function(data){
+				alert(data.name);
+				if(data.code == 1){
+					$("#sent-checkcode").remove();
+				}
+			});
+		});
+	});
+//判断邮箱格式是否合格
+    function checkemail(email) { var obj = new RegExp("^[0-9a-zA-Z][_.0-9a-zA-Z-]{0,31}@([0-9a-zA-Z][0-9a-zA-Z-]{0,30}[0-9a-zA-Z]\.){1,4}[a-z]{2,4}$"); return obj.test(email); }
+
+    function deleteEmptyStr(str){
+      str = str.replace(/\s+/g,"");
+      return str;
+    }
+</script>
 
