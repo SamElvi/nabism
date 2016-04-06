@@ -123,7 +123,31 @@ class LoginController extends BaseController {
         // }      
         $this->ajaxReturn($issent);
     }
-   
+
+    public function sentChangePasswordCode(){
+        $email = I('post.email');
+        $db_login = D('login');
+        $isUser = $db_login->findLoginCode(array('account'=>$email));
+        if(is_array($isUser) && $isUser['account'] == $email){
+            $code = $this->makeRandomStr();
+            $db_changecode = D('changecode');
+            $is_in = $db_changecode->insertCode($email,md5($code));
+            if($is_in){
+                $subject = 'WEN DI 更改密码验证码';
+                $message = '这是给你的验证码:'.$code;
+                SendMail($email,$subject,$message);
+                $error['name'] = '验证码邮件已经发送';
+                $error['code'] = 1;
+            }else{
+                $error['name'] = '验证码生成失败';
+                $error['code'] = 2;
+            }
+        }else{
+            $error['name'] = '此账号没有注册';
+            $error['code'] = 0;
+        }
+        $this->ajaxReturn($error,"json");
+    }
 
     protected function makeRandomStr($leng = 6)
     {
