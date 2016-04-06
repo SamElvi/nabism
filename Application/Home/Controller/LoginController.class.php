@@ -119,8 +119,6 @@ class LoginController extends BaseController {
         }
         $db_code = D('changecode');
         $hascode = $db_code->findChangeCode(array('account'=>$account));
-        var_dump($hascode);
-        var_dump($code);
         if($hascode['account'] == $account && $code == $hascode['code']){
             var_dump($hascode);
             exit();
