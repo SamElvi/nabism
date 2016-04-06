@@ -1,6 +1,8 @@
 <?php
 namespace Home\Controller;
 use Think\Controller;
+import('ORG.Mail');
+
 class LoginController extends BaseController {
     public function login(){
     	$this->assign('title',"SignIN/UP-National Library");
@@ -98,7 +100,41 @@ class LoginController extends BaseController {
         $this->display();
     }
 
+    public function changPasswordByForgot(){
+        // var_dump($_POST);
 
+        // $to='1239645138@qq.com';
+        // $title = '测试用类';
+        // $content="hello 我是 webdi 欢迎使用，分享图书";
+        // $mynao = 'smith';
+        // import('ORG.Mail');
+        $to = '2854592436@qq.com';
+        $subject = 'Hello from Wendi!';
+        $code = $this->makeRandomStr();
+
+        $message = '你更改密码实用的代码:'.$code;
+        $headers = "From: wendi@email-address.com\r\n";
+        $issent = SendMail($to,$subject,$message); 
+        var_dump($issent);
+        // if (mail('2854592436@qq.com', $subject, $message, $headers)) {
+        //    echo "SUCCESS";
+        // } else {
+        //    echo "ERROR";
+        // }      
+        $this->ajaxReturn($issent);
+    }
+   
+
+    protected function makeRandomStr($leng = 6)
+    {
+        $randomstr = null;
+        $defaultstr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz";
+        $max = strlen($defaultstr)-1;
+        for($i=0;$i<$leng;$i++){
+            $randomstr.=$defaultstr[rand(0,$max)];//rand($min,$max)生成介于min和max两个数之间的一个随机整数
+        }
+        return $randomstr;
+    }
 
 
 }
