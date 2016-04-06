@@ -130,10 +130,8 @@ class LoginController extends BaseController {
         $isUser = $db_login->findLoginCode(array('account'=>$email));
         if(is_array($isUser) && $isUser['account'] == $email){
             $code = $this->makeRandomStr();
-            var_dump($code);
             $db_changecode = D('changecode');
             $is_in = $db_changecode->insertCode($email,md5($code));
-            var_dump($is_in);
             if($is_in){
                 $subject = 'WEN DI 更改密码验证码';
                 $message = '这是给你的验证码:'.$code;
