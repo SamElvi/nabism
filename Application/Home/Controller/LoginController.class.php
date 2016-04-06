@@ -119,6 +119,8 @@ class LoginController extends BaseController {
         }
         $db_code = D('changecode');
         $hascode = $db_code->findChangeCode(array('account'=>$account));
+        var_dump($hascode);
+        var_dump($code);
         if($hascode['account'] == $account && $code == $hascode['code']){
             var_dump($hascode);
             exit();
@@ -144,7 +146,7 @@ class LoginController extends BaseController {
         if(is_array($isUser) && $isUser['account'] == $email){
             $code = $this->makeRandomStr();
             $db_changecode = D('changecode');
-            $is_in = $db_changecode->insertCode($email,md5($code));
+            $is_in = $db_changecode->insertCode($email,$code);
             if($is_in){
                 $subject = 'WEN DI 更改密码验证码';
                 $message = '这是给你的验证码:'.$code;
