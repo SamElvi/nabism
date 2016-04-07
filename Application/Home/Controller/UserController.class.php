@@ -13,7 +13,7 @@ class UserController extends BaseController
 	public function user(){
     	$this->assign('title',"National Library user");
     	$userid = I('get.userid');
-    	if(empty($userid) || $this->_userInfo['userid'] == $userid){
+    	if(!empty($userid) || $this->_userInfo['userid'] == $userid){
     		$this->redirect('User/myspace',array('userid'=>$userid));
     	}
     	$user_db = D('user');
