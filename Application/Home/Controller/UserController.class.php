@@ -19,10 +19,11 @@ class UserController extends BaseController
     	$user_db = D('user');
     	$userinfo = $user_db->getOneUserInfo(array('id'=>$userid));
     	$book_db = D('user_books');
-    	$books = $book_db->getBooksByUserId($this->_userInfo['userid']);
+    	$books = $book_db->getBooksByUserId($userid);
     	foreach ($books as $key => $book) {
     		$books[$key]['uri'] = $this->buildUri('Books','detail',array('id'=>$book['id']));
     	}
+		var_dump($books);
     	$userinfo['books'] = count($books);
     	$article_db = D('user_article');
     	$articles = $article_db->getArticlesWithoutContent(array('userid'=>$userid));
