@@ -19,9 +19,9 @@
 
 	<div class="wen-forgot center-block">
 		<input class="form-control" id="email" type="text" placeholder="请输入注册时的email地址">
-		<input class="form-control" id="password" type="text" placeholder="请输入新密码">
-		<input class="form-control " id="code" type="text" placeholder="请输入wendi寄给你的验证码">
-		<button class="btn btn-success form-control" id="sub-changePass" >更改密码</button>
+		<input class="form-control hidden" id="password" type="text" placeholder="请输入新密码" >
+		<input class="form-control hidden" id="code" type="text" placeholder="请输入wendi寄给你的验证码">
+		<button class="btn btn-success form-control hidden" id="sub-changePass" >更改密码</button>
 		<button class="btn btn-primary form-control" id="sent-checkcode">发送验证码</button>
 	</div>
 
@@ -74,6 +74,9 @@
 				alert(data.name);
 				if(data.code == 1){
 					$("#sent-checkcode").remove();
+					$("#password").removeClass('hidden');
+					$("#code").removeClass('hidden');
+					$("#sub-changePass").removeClass('hidden');
 				}
 			});
 		});
