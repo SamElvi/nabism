@@ -13,13 +13,13 @@ class UserController extends BaseController
 	public function user(){
     	$this->assign('title',"National Library user");
     	$userid = I('get.userid');
-    	if(!empty($userid) || $this->_userInfo['userid'] == $userid){
+    	if(!empty($userid) && $this->_userInfo['userid'] == $userid){
     		$this->redirect('User/myspace',array('userid'=>$userid));
     	}
     	$user_db = D('user');
     	$userinfo = $user_db->getOneUserInfo(array('id'=>$userid));
     	$book_db = D('user_books');
-    	$books = $book_db->getBooksByUserId($userid);
+    	$books = $book_db->getBooksByUserId($this->_userInfo['userid']);
     	foreach ($books as $key => $book) {
     		$books[$key]['uri'] = $this->buildUri('Books','detail',array('id'=>$book['id']));
     	}
