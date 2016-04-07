@@ -23,7 +23,6 @@ class UserController extends BaseController
     	foreach ($books as $key => $book) {
     		$books[$key]['uri'] = $this->buildUri('Books','detail',array('id'=>$book['id']));
     	}
-		var_dump($books);
     	$userinfo['books'] = count($books);
     	$article_db = D('user_article');
     	$articles = $article_db->getArticlesWithoutContent(array('userid'=>$userid));
