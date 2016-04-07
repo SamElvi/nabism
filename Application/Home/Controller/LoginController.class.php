@@ -132,6 +132,7 @@ class LoginController extends BaseController {
             $error['name'] = '验证码错误';
             $error['code'] = 3;
         }
+        $this->ajaxReturn($error);
     }
 
     public function sentChangePasswordCode(){
