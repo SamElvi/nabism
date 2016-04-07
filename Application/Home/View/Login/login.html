@@ -84,9 +84,6 @@
 </div>
 <script>
 
-var lat;
-var lng;
-var address;
 // var locationInfo ={};
 	$(function() {
     $("#locaiton").click(function(){
@@ -182,4 +179,8 @@ var address;
       str = str.replace(/\s+/g,"");
       return str;
     }
+
+    $(document).ready(function() {
+        loadlocation();
+    });
 </script>
