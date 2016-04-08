@@ -13,14 +13,15 @@ class LoginController extends BaseController {
     }
 
     public function tryLogin(){
-    	// $userid = I('post.user');
 		$account['account'] = I('post.user');
 		$password = md5(I('post.password'));
 		$check = I('post.check');
-        $location['lat'] = I('post.lat');
-        $location['lng'] = I('post.lng');
-        $location['address'] = I('post.address');
-		if (is_array($this->_userInfo) && count($this->_userInfo)>2) {
+        $location['lat'] = $_POST['lat'];
+        $location['lng'] = $_POST['lng'];
+        if($location['lat'] !='' && $location['lng'] !=''){
+            $this->reSetLocationSession($location);
+        }
+        if (is_array($this->_userInfo) && count($this->_userInfo)>2) {
             if($this->_userInfo['account'] = $account && $this->_userInfo['password'] == $password){
                 $error['name'] = '已登录 ';
                 $error['code'] = 1;
@@ -32,7 +33,6 @@ class LoginController extends BaseController {
             if(is_array($logInfo) && count($logInfo)>0){
                 if ($password == $logInfo['password']) {
                     $this->reSetUserInfoSession($logInfo);
-                    $this->reSetLocationSession($location);
                     $error['name'] = '登录成功';
                     $error['code'] = 1;
                  } 
@@ -55,10 +55,9 @@ class LoginController extends BaseController {
 
         $userInfo['name'] = I('post.username');
         $userInfo['email'] = I('post.email');
-        $userInfo['lat'] = I('post.lat');
-        $userInfo['lng'] = I('post.lng');
-        $userInfo['address'] = I('post.address');
-
+        $userInfo['lat'] = $_POST['lat'];
+        $userInfo['lng'] = $_POST['lat'];
+//        $userInfo['address'] = I('post.address');
         $user_db = D('user');
         $login_db = D('login');
 
