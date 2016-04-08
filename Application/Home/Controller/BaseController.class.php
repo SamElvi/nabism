@@ -17,6 +17,7 @@ class BaseController extends Controller {
      	else{
      		// $this->redirect("Nation/index");
      	}
+		$this->_location = session("_location");
 	}
 
 	protected function _checkUserImgCookie(){
@@ -78,6 +79,8 @@ class BaseController extends Controller {
 	public function reSetLocationSession($location){
 		$this->_location = $location;
 		session("_location",$this->_location);
+//		$tmp = $this->_location;
+//		var_dump(session("_location"));
 	}
 
 	public function destoryUserInfoSession(){
@@ -107,8 +110,36 @@ class BaseController extends Controller {
 		return U($con.'/'.$fun,$val_arr);
 	}
 
+
+
+	/**
+	 * @param raidus 单位米
+	 * return minLat,minLng,maxLat,maxLng
+	 */
+	public function getAround($lat,$lon, $raidus = 1000) {
+
+		$latitude = $lat;
+		$longitude = $lon;
+		$degree = (24901 * 1609) / 360.0;
+		$raidusMile = $raidus;
+
+		$dpmLat = 1 / $degree;
+		$radiusLat = $dpmLat * $raidusMile;
+		$minLat = $latitude - $radiusLat;
+		$maxLat = $latitude + $radiusLat;
+
+		$mpdLng = $degree * cos($latitude * (M_PI / 180));
+		$dpmLng = 1 / $mpdLng;
+		$radiusLng = $dpmLng * $raidusMile;
+		$minLng = $longitude - $radiusLng;
+		$maxLng = $longitude + $radiusLng;
+		return  array($minLat, $minLng, $maxLat, $maxLng);
+	}
+
     public function Index(){
     	$this->display();
     }
+	
+	
 
 }
