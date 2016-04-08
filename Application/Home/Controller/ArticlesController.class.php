@@ -74,6 +74,10 @@ class ArticlesController extends BaseController
 		$article['title'] = $_POST['title'];
 		$article['content'] = $_POST['content'];
 		$article['userid'] = $this->_userInfo['userid'];
+		if(is_array($this->_location)){
+			$article['lat'] = $this->_location['lat'];
+			$article['lng'] = $this->_location['lng'];
+		}
 		$article_id = I('post.article_id');
 		$articleInfo = $article_db->getArticleById($article_id);
 		$status = I('post.type');
