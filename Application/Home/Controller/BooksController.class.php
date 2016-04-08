@@ -50,11 +50,15 @@ class BooksController extends BaseController
 		$book['author'] = I('post.author');
 		$book['type'] = I('post.type');
 		$book['userid'] = $this->_userInfo['userid'];
+		if(is_array($this->_location)){
+			$book['lat'] = $this->_location['lat'];
+			$book['lng'] = $this->_location['lng'];
+		}
 		$book_id = I('post.bookid');
 		$introduction = I('post.introduction');
 		$imgdata = $_POST['cover'];
 		$book = array_filter($book);
-		if(count($book)==4 && $introduction !=''){
+		if(count($book)>4 && $introduction !=''){
 			$mycomment = I('post.comment');	
 			$content['introduction'] = $introduction;
 			$content['mycomment'] = $mycomment;
