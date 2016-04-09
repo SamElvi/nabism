@@ -1,6 +1,7 @@
 <style type="text/css">
 	.cover{
-		text-align: center;
+		/*text-align: center;*/
+		margin-left:23%;
 	}
 	.cover-img{
 		width: 300px;
@@ -15,6 +16,10 @@
 		width: 50px;
 		height: 50px
 	}
+
+	/*#text-count{*/
+		/*float: left;*/
+	/*}*/
 </style>
 <div class="row" style="margin-bottom:60px;margin-top:50px">
 	<div class="col-sm-8" style="border-right: 1px solid">
@@ -58,12 +63,18 @@
 	            	<label class="control-label"><{$book_user['email']}></label>
 	            </div>
         	</div>
+			<div class="form-grooup">
+				<label class="col-xs-6 .col-md-4 control-label">
+					<button class="btn btn-primary"  data-toggle="modal"
+							data-target="#sent-request">发送站内信</button>
+				</label>
+			</div>
 		</div>
 	</div>
 	<div class="col-sm-4" >
 		<div class="book-user" style="text-align:center">
 			<img class="user-img" src="__PUBLIC__/Uploads/Users/<{$book_user['img']}>">
-			<p>分享者：<{$book_user['name']}></p>
+			<p>分享者：<a href="<{$book_user['uri']}>"><{$book_user['name']}></a> </p>
 			<p>Email：<{$book_user['email']}></p>
         	<label>他还分享的图书：</label>
 		</div>
@@ -82,3 +93,78 @@
     	</volist>
 	</div>
 </div>
+
+<div class="modal fade" id="sent-request" tabindex="-1" role="dialog"
+	 aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close"
+						data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					To:<span class="text-primary"><{$book_user['name']}></span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<textarea class="form-control" name="" id="ask-text" cols="78" rows="5" onkeyup="words_deal();" ></textarea>
+			</div>
+			<div class="modal-footer">
+				<span id="text-count" class="pull-left text-muted"></span>
+				<!--<button type="button" class="btn btn-default"-->
+						<!--data-dismiss="modal">关闭-->
+				<!--</button>-->
+				<button type="button" data-touserid='<{$book["userid"]}>' id="sent-mail" class="btn btn-primary">
+					发送简讯
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+
+<script>
+	$(function(){
+		$("#sent-mail").click(function(){
+			var mail = $("#ask-text").val();
+			var touserid = $(this).data('touserid');
+			var $mailer = $(this);
+			if(mail.length == 0){
+				$("#text-count").text("你在逗我啊!要我跑去送一个空信件,多累啊");
+				return;
+			}
+			if(touserid ==''){
+				$("#text-count").text("好像出了点错误,我找不到收信人的邮箱,抱歉-.-!");
+				return;
+			}
+			$.ajax({
+				type:"POST",
+				url:'<{:U("Message/booksmail")}>',
+				data:{
+					mail:mail,
+					touserid:touserid
+				},
+				dataType:"json"
+			}).done(function(data){
+				if(data.code == 1){
+					$mailer.remove();
+				}
+				$("#text-count").text(data.name);
+			});
+		});
+	});
+
+	function words_deal()
+	{
+		var curLength=$("#ask-text").val().length;
+		if(curLength>140)
+		{
+			var num=$("#ask-text").val().substr(0,140);
+			$("#ask-text").val(num);
+			$("#text-count").text("超过字数限制，多出的字将被截断！" );
+		}
+		else
+		{
+			$("#text-count").text("还可以输入:"+(140-$("#ask-text").val().length)+'字符');
+		}
+	}
+</script>
