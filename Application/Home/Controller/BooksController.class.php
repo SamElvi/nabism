@@ -104,6 +104,7 @@ class BooksController extends BaseController
 		$book_user['name'] = $user['name'];
 		$book_user['email'] = $user['email'];
 		$book_user['img'] = $user['headerimage'];
+		$book_user['uri'] = $this->buildUri("User","user",array('userid'=>$book_info['userid']));
 		if(isset($user) && $user['id']!=''){
 			$user_books = $books_db->getBookListLimit(array('userid'=>$user['id']),5);
 			foreach ($user_books as $key => $ubook) {
