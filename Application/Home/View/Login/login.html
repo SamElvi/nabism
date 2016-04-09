@@ -17,11 +17,7 @@
       text-align: center;
 
 		}
-    #locaiton:hover{
-      background-color: #7CC67C;
-    }
 
-  
 	</style>
 
 <div class="login-wrap">
@@ -80,16 +76,12 @@
         </div>
       </div>
     </div>
+      <div id="location-status"></div>
   </div>
 </div>
 <script>
 
-// var locationInfo ={};
 	$(function() {
-    $("#locaiton").click(function(){
-      alert('1111');
-      $("#mark-location").click();
-    });
     //登录接口
 		$("#sign_in").click(function(event){
 			var user = deleteEmptyStr($("#user").val());
@@ -105,9 +97,9 @@
 					$.post('<{:U("Login/tryLogin")}>',{
 						user: user,
 						password: pass,
-            lat: '134.023422342',
-            lng: '122.23113',
-            address:'北京市',
+                        lat: lastLat,
+                        lng: lastLong,
+//                        address:'北京市',
 						check: check
 					},function(data){
             $("#signIn_wrong").html(data['name']);
@@ -150,9 +142,9 @@
           username:username,
           password:password1,
           email:email,
-          lat: '134.023422342',
-          lng: '122.23113',
-          address:'北京市'
+          lat: lastLat,
+          lng: lastLong,
+//          address:'北京市'
         },function(data){
             $("#signUp_wrong").html(data['name']);
           setTimeout(function(){$("#signUp_wrong").html('')},4000);
