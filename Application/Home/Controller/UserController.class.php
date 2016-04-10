@@ -145,4 +145,22 @@ class UserController extends BaseController
 		$this->ajaxReturn($error,"json");
 	}
 
+	public function myMailBox(){
+		if($this->_userInfo == null){
+			$this->redirect("Login/login");
+
+		}
+		$db_mail = D('mail');
+		$db_user = D('user');
+		$sentMails = $db_mail->getMailsByFromStatus($this->_userInfo['userid']);
+		foreach($sentMails as $key=>$mail){
+			$user = $db_user->getUserInfoById($mail['toid']);
+			$sentMails[$key]['toname'] = $user['name'];
+		}
+		$getMails = $db_mail->getMailsByToStatus($this->_userInfo['userid']);
+		$this->assign('sentMails',$sentMails);
+		$this->assign('getMails',$getMails);
+		$this->display();
+	}
+
 }
