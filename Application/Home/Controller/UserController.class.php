@@ -13,9 +13,9 @@ class UserController extends BaseController
 	public function user(){
     	$this->assign('title',"National Library user");
     	$userid = I('get.userid');
-    	if(!empty($userid) && $this->_userInfo['userid'] == $userid){
-    		$this->redirect('User/myspace',array('userid'=>$userid));
-    	}
+		if($userid == '' || $this->_userInfo['userid'] == $userid){
+			$this->redirect('User/myspace',array('userid'=>$userid));
+		}
     	$user_db = D('user');
     	$userinfo = $user_db->getOneUserInfo(array('id'=>$userid));
     	$book_db = D('user_books');
@@ -48,9 +48,11 @@ class UserController extends BaseController
 	public function myspace(){
 		$this->assign('title',"National Library Myspace");
     	$userid = I('get.userid');
-    	if(!isset($this->_userInfo['userid']) || $this->_userInfo['userid'] != $userid){
-    		$this->redirect('User/user',array('userid'=>$userid));
-    	}
+    	if($userid != '' && $this->_userInfo['userid'] != $userid){
+			$this->redirect('User/user',array('userid'=>$userid));
+		}else if($userid == ''){
+			$userid = $this->_userInfo['userid'];
+		}
     	$user_db = D('user');
     	$userinfo = $user_db->getOneUserInfo(array('id'=>$userid));
 
@@ -80,7 +82,6 @@ class UserController extends BaseController
 	public function headImg(){
 		if($this->_userInfo == null){
 			$this->redirect("Login/login");
-
 		}
 		$this->display();
 	}
