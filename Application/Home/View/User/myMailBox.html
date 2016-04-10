@@ -1,0 +1,176 @@
+<style>
+    .mark-time{
+        font-size: x-small;
+    }
+    .message-container{
+        height: 600px;
+        padding-top: 100px;
+    }
+</style>
+<div class="message-container">
+    <div class="books-articles">
+        <div class="row">
+            <div class="col-xs-6 .col-md-6 ">
+                <volist name="getMails" id="gmail">
+                       <div class="panel panel-info" >
+                        <div class="panel-heading inline">
+                        <span>
+                            来自 <a class="fromuser" href=""><{$gmail['fromname']}></a>
+                        </span>
+                            <button data-id="<{$gmail['id']}>" type="button" class="close pull-right delfrom"
+                                    aria-hidden="true">
+                                &times;
+                            </button>
+                            <button data-from="<{$gmail['fromid']}>" class="btn btn-xs btn-default pull-right callback" data-toggle="modal"
+                                    data-target="#backwords">回复</button>
+                        </div>
+                        <div class="panel-body">
+                            <{$gmail['content']}>
+                            <br>
+                            <p class="mark-time pull-right"><{$gmail['ctime']}></p>
+                        </div>
+                    </div>
+                </volist>
+            </div>
+            <div class="col-xs-6 .col-md-6">
+                <volist name="sentMails" id="smail">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                       <span>
+                            寄给 <a class="fromuser" href=""><{$smail['toname']}></a>
+                        </span>
+                            <button data-id="<{$smail['id']}>" type="button" class="close pull-right delto"
+                                    aria-hidden="true">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="panel-body">
+                            <{$smail['content']}>
+                            <br>
+                            <p class="mark-time pull-right"><{$gmail['ctime']}></p>
+                        </div>
+                    </div>
+                </volist>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="backwords" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    回信给: <span id="sendtouser"></span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="" id="message" cols="78" rows="5" onkeyup="words_deal();" ></textarea>
+            </div>
+            <div class="modal-footer">
+                <span id="text-count" class="pull-left text-muted"></span>
+                <button type="button" class="btn btn-primary" id="sentit">
+                    biu~
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script>
+
+    $(function(){
+        var fromuser;
+        $(".callback").click(function(){
+            var from = $(this).parent().find('.fromuser')[0];
+            $("#backwords").find("#sendtouser").html($(from).clone());
+            $("#sentit").show();
+            $("#message").val('');
+            fromuser = $(this).data('from');
+        });
+        $("#sentit").click(function(){
+            var mail = $("#message").val();
+            var $mailer = $(this);
+            if(mail.length == 0){
+                $("#text-count").text("你在逗我啊!要我跑去送一个空信件,多累啊");
+                return;
+            }
+            if(fromuser ==''){
+                $("#text-count").text("好像出了点错误,我找不到收信人的邮箱,抱歉-.-!");
+                return;
+            }
+            $.ajax({
+                type:"POST",
+                url:'<{:U("Message/booksmail")}>',
+                data:{
+                    mail:mail,
+                    touserid:fromuser
+                },
+                dataType:"json"
+            }).done(function(data){
+                if(data.code == 1){
+                    $mailer.hide();
+                }
+                $("#text-count").text(data.name);
+            });
+        });
+
+        $(".delto").click(function(){
+            var id = $(this).data("id");
+            var $parent = $(this).parent().parent();
+            delMessage(id,'to',$parent);
+        });
+        $(".delfrom").click(function(){
+            var id = $(this).data("id");
+            var $parent = $(this).parent().parent();
+            delMessage(id,'from',$parent);
+        });
+    });
+
+    function delMessage(id,type,$parent){
+        console.log(id);
+        var outcome = false;
+        $.ajax({
+            type:"POST",
+            url:'<{:U("Message/delMessage")}>',
+            data:{
+                id:id,
+                type:type
+            },
+            dataType:"json"
+        }).done(function(data){
+            if(data['code'] == 1){
+                outcome = true;
+                $parent.remove();
+            }else{
+                alert(data['name']);
+            }
+        });
+    }
+
+    function words_deal()
+    {
+        var curLength=$("#message").val().length;
+        if(curLength>140)
+        {
+            var num=$("#message").val().substr(0,140);
+            $("#message").val(num);
+            $("#text-count").text("超过字数限制，多出的字将被截断！" );
+        }
+        else
+        {
+            $("#text-count").text("还可以输入:"+(140-$("#message").val().length)+'字符');
+        }
+    }
+            $(document).ready(function() {
+                    $.post('<{:U("Message/openMails")}>',{
+                    },function(data){
+                    });
+            });
+</script>
