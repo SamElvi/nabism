@@ -38,6 +38,7 @@
 			<li><a href='<{:U("Books/donateBooks")}>'>发布图书</a></li>
 			<li><a href='<{:U("Articles/writeArticle")}>'>发布文章</a></li>
 			<notempty name="userInfo">
+
 				<li> 
 					<!-- style="padding-top:10px;" -->
 					<a  id="head-a-img" href='/graduationproject/index.php/home/user/user/userid/<{$userInfo.userid}>.html'>
@@ -47,17 +48,17 @@
                  <img id="head-img" src="__PUBLIC__/img/bg.jpg">
             </notempty> -->
 
-            <notempty name="userImgInfo">
-              <img  id="head-img" src="__PUBLIC__/Uploads/Users/<{$userImgInfo}>">
-              <else/>
-              <img id="head-img" src="__PUBLIC__/img/default.gif">
-            </notempty>
-          </a>
+                <notempty name="userImgInfo">
+                  <img  id="head-img" src="__PUBLIC__/Uploads/Users/<{$userImgInfo}>">
+                  <else/>
+                  <img id="head-img" src="__PUBLIC__/img/default.gif">
+                </notempty>
+                    </a>
 					<!-- U('Blog/cate','cate_id=1&status=1') -->
-				</li>
-        <!-- <li>
-          <a href="" id="u-message"><span class="badge">2</span></a>
-        </li> -->
+                </li>
+                <li>
+                    <a href='<{:U("User/myMailBox")}>'><span class="badge"><{$messagenum}></span> </a>
+                </li>
 				<li><a id="log_out">退出</a></li>
 			<else/>
 				<li><a href="<{:U('Login/login')}>">SignIn/SignUp</a></li>
@@ -84,11 +85,11 @@
 
 <script>
 	$(function(){
-		$("li").find("#log_out").click(function(){
-			$.post('<{:U("Login/logOut")}>',{
-			},function(data){
-				location.reload();
-			});
-		});
+        $("li").find("#log_out").click(function(){
+            $.post('<{:U("Login/logOut")}>',{
+            },function(data){
+                location.href='<{:U("User/myMailBox")}>';
+            });
+        });
 	})
 </script>		
