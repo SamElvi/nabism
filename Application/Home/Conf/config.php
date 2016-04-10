@@ -54,6 +54,16 @@ return array(
     'URL_ROUTER_ON' => true, // 是否开启URL路由
     'CHECK_APP_DIR' => true, // 是否检查应用目录是否创建
     'FILE_UPLOAD_TYPE' => 'Local', // 文件上传方式
-    'DATA_CRYPT_TYPE' => 'Think', // 数据加密方式
+    'DATA_CRYPT_TYPE' => 'Think', // 数据加密方式,
+
+    'MAIL_NAME'=>'WEN DI图书共享社区',    //收件人看到的我们的名字
+    'MAIL_ADDRESS'=>'wendismith@126.com', // 邮箱地址 'eandfore241@126.com'
+    'MAIL_LOGINNAME'=>'wendismith@126.com', // 邮箱登录帐号'eandfore241@126.com'
+    'MAIL_SMTP'=>'smtp.126.com', // 邮箱SMTP服务器smtp.126.com
+    'MAIL_PASSWORD'=>'lovewendi2016', // 邮箱密码'abcd123456'
+    'MAIL_CHARSET'=>'UTF-8',//编码
+    'MAIL_AUTH'=>true,//邮箱认证
+    'MAIL_HTML'=>true,//true HTML格式 false TXT格式
+
 
 );
