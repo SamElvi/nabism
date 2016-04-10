@@ -12,6 +12,10 @@ class NationController extends BaseController {
             $option['lng'] = array(array('gt',$around['1']),array('lt',$around[3]));
         }
     	$bookList = $book_db->getBookList($option);
+        if(count($bookList) <5){
+            $list = $book_db->getBookList(array('status'=>1));
+        }
+        $bookList = array_merge($bookList,$list);
     	foreach ($bookList as $key => $value) {
     		$bookList[$key]['uri'] = $this->buildUri('Books','detail',array('id'=>$value['id']));
             $bookList[$key]['content'] = unserialize($value['content']);
