@@ -51,6 +51,10 @@ class ImgController extends BaseController
 
 
 	public function imageUpload(){
+		if($this->_userInfo == null){
+			$this->redirect("Login/login");
+
+		}
 		$this->display();
 	}
 
