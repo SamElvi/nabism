@@ -36,4 +36,33 @@ class MessageController extends BaseController{
     }
 
 
+    public function openMails(){
+        $db_mail = D('mail');
+        $db_mail->watchMailStatusByToid($this->_userInfo['userid']);
+        $this->ajaxReturn(array(
+            'code'=>1
+        ),"json");
+    }
+
+    public function delMessage(){
+        $id = I('post.id');
+        $type = I('post.type');
+        if($type =='to'){
+            $option['del'] = 1;
+        }else if($type == 'from'){
+            $option['status'] = 2;
+        }
+        $db_mail = D('mail');
+            $isdel = $db_mail->updateMailById($id,$option);
+        if($isdel){
+            $error['code'] = 1;
+            $error['name'] = '删除了';
+        }else{
+            $error['code'] = 0;
+            $error['name'] = '程序员走开了,删除不了惹';
+        }
+        $this->ajaxReturn($error,"json");
+    }
+
+
 }
