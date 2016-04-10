@@ -13,6 +13,9 @@ class BaseController extends Controller {
      	if(!empty($userInfo)){
      		$this->_userInfo = $userInfo;
      		$this->assign("userInfo",$this->_userInfo);
+			$db_mail = D('mail');
+			$messagenum = $db_mail->getMailNumByIdAndStatus($this->_userInfo['userid']);
+			$this->assign('messagenum',$messagenum);
      	}
      	else{
      		// $this->redirect("Nation/index");
