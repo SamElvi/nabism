@@ -57,7 +57,9 @@ class LoginController extends BaseController {
         $userInfo['email'] = I('post.email');
         $userInfo['lat'] = $_POST['lat'];
         $userInfo['lng'] = $_POST['lng'];
-//        $userInfo['address'] = I('post.address');
+        if($userInfo['lat'] !='' && $userInfo['lng'] !=''){
+            $this->reSetLocationSession(array('lat'=>$userInfo['lat'],'lng'=>$userInfo['lng']));
+        }
         $user_db = D('user');
         $login_db = D('login');
 
