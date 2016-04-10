@@ -78,6 +78,10 @@ class UserController extends BaseController
 	}
 
 	public function headImg(){
+		if($this->_userInfo == null){
+			$this->redirect("Login/login");
+
+		}
 		$this->display();
 	}
 
