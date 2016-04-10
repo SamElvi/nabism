@@ -108,7 +108,7 @@ class ImgController extends BaseController
 		$filep = './Public/Uploads/'.$_POST['type'].'/';
 		$pic_name='./Public/Uploads/Temp/'.$_POST['img'];
 		$x=$_POST['x'];
-		$Y=$_POST['Y'];
+		$y=$_POST['Y'];
 		$w=$_POST['w'];
 		$h=$_POST['h'];
 		$targ_w = $targ_h = $w;
