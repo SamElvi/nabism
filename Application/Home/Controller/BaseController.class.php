@@ -10,17 +10,24 @@ class BaseController extends Controller {
 	protected function _checkLogin()
 	{
      	$userInfo = session("_userInfo");
-     	if(!empty($userInfo)){
+		$this->_location = session("_location");
+		if(!empty($userInfo)){
      		$this->_userInfo = $userInfo;
      		$this->assign("userInfo",$this->_userInfo);
 			$db_mail = D('mail');
 			$messagenum = $db_mail->getMailNumByIdAndStatus($this->_userInfo['userid']);
 			$this->assign('messagenum',$messagenum);
+			$db_user = D("user");
+			if($this->_userInfo['userid'] && count($this->_location)<2){
+				$location = $db_user->getUserInfoById($this->_userInfo['userid']);
+				$this->_location['lat'] = $location['lat'];
+				$this->_location['lng'] = $location['lng'];
+				$this->reSetLocationSession($this->_location);
+			}
      	}
      	else{
      		// $this->redirect("Nation/index");
      	}
-		$this->_location = session("_location");
 	}
 
 	protected function _checkUserImgCookie(){
