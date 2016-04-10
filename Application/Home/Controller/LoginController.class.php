@@ -56,7 +56,7 @@ class LoginController extends BaseController {
         $userInfo['name'] = I('post.username');
         $userInfo['email'] = I('post.email');
         $userInfo['lat'] = $_POST['lat'];
-        $userInfo['lng'] = $_POST['lat'];
+        $userInfo['lng'] = $_POST['lng'];
 //        $userInfo['address'] = I('post.address');
         $user_db = D('user');
         $login_db = D('login');
